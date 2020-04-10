@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateServices", "Cert
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateServices.Tests", "CertificateServices.Tests\CertificateServices.Tests.csproj", "{A5AA1AC2-45B7-46AA-AA27-6F82961430FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateManager.Blazor", "CertificateManager.Blazor\CertificateManager.Blazor.csproj", "{FEC28BB4-01F0-47DC-B40A-6A447BA465FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A5AA1AC2-45B7-46AA-AA27-6F82961430FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5AA1AC2-45B7-46AA-AA27-6F82961430FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5AA1AC2-45B7-46AA-AA27-6F82961430FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC28BB4-01F0-47DC-B40A-6A447BA465FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC28BB4-01F0-47DC-B40A-6A447BA465FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC28BB4-01F0-47DC-B40A-6A447BA465FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC28BB4-01F0-47DC-B40A-6A447BA465FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
