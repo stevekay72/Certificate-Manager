@@ -6,6 +6,8 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using CertificateServices.Interfaces;
+using CertificateServices.Services;
 
 namespace GetCertInfo
 {
@@ -29,14 +31,21 @@ namespace GetCertInfo
 
             return certificate ?? throw new NullReferenceException();
         }
+
+        private static ICertificateReader CertReader;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Cert Checker!");
+            CertReader = new CertificateReader();
+
             //var url = "www.google.com";
             var url = "www.fca.org.uk";
 
-            var cert = GetServerCertificateAsync($"https://{url}").Result;
-            var expiry = cert.GetExpirationDateString();
+            var cert = CertReader.GetCertificateInfo(new Uri($"https://{url}")).Result;
+            //var cert = GetServerCertificateAsync($"https://{url}").Result;
+            var expiry = cert.Expiry;
+            //var expiry = cert.GetExpirationDateString();
             Console.WriteLine($"Expiry = {expiry}");
 
             Console.ReadKey();

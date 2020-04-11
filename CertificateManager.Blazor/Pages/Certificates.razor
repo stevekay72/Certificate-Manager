@@ -1,29 +1,64 @@
 ﻿@page "/certificates"
 
 @using CertificateServices.Models;
+@using CertificateServices.Interfaces;
+@using System.Text.RegularExpressions;
+@using System.Linq;
+@inject ICertificateReader CertReader;
+@inject IDNParser DNParser;
 
 <h3>Certificates</h3>
 
 <input placeholder="Add Url" @bind="newUrl" />
 <button @onclick="AddUrl">Add Url</button>
 
-<ul>
-    @foreach (var certificate in certificates)
-    {
-        <li>@certificate.Title</li>
-    }
-</ul>
+@if (certificates == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Expiry</th>
+                <th>Issuer</th>
+                <th>KeyHash</th>
+                <th>Url</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var certificate in certificates)
+            {
+                <tr>
+                    <td>@certificate.Expiry.ToShortDateString()</td>
+                    <td>@certificate.IssuerDN</td>
+                    <td>@certificate.KeyHash</td>
+                    <td>@certificate.Url</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
     private IList<CertificateInfo> certificates = new List<CertificateInfo>();
     private string newUrl;
 
-    private void AddUrl()
+    private async Task AddUrl()
     {
         // Todo: Add the todo
         if (!string.IsNullOrWhiteSpace(newUrl))
         {
-            certificates.Add(new CertificateInfo { Title = newUrl });
+            var certDetails = await CertReader.GetCertificateInfo(new Uri($"https://{newUrl}"));
+            var dn = DNParser.Parse(certDetails.IssuerDN);
+            var org = dn.O;
+            //var org = Regex.Match(certDetails.IssuerDN, @"O\s?=(.*)\s").Groups[1].ToString();
+            //var name = new X509Name(certDetails.IssuerDN);
+            //var org = name.GetValueList(X509Name.O).OfType<string>().FirstOrDefault();
+            certDetails.IssuerDN = org;
+            certificates.Add(certDetails);
+            //certificates.Add(new CertificateInfo { Title = certDetails.Issuer });
             newUrl = string.Empty;
         }
     }

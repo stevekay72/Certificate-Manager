@@ -32,6 +32,7 @@ namespace CertificateManager.Blazor
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<ICertificateReader>(new CertificateReader());
+            services.AddSingleton<IDNParser>(new DNParser());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

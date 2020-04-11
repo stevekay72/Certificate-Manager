@@ -26,7 +26,13 @@ namespace CertificateServices.Services
             var httpClient = new HttpClient(httpClientHandler);
             await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
 
-            return (CertificateInfo)certificate ?? throw new NullReferenceException();
+            if (certificate is null) throw new NullReferenceException();
+            var returnCert = new CertificateInfo(certificate)
+            {
+                Url = url
+            };
+            return returnCert;
+            //return (CertificateInfo)certificate ?? throw new NullReferenceException();
         }
 
         public async Task<CertificateInfo> GetCertificateInfo(IPAddress ipAddress)

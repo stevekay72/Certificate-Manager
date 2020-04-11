@@ -22,14 +22,14 @@ namespace CertificateServices.Tests
         public async Task GetCertificateUrl()
         {
             var result = await CertificateReader.GetCertificateInfo(new Uri("https://www.google.com"));
-            Assert.AreEqual("CN=GTS CA 1O1, O=Google Trust Services, C=US", result.Issuer);
+            Assert.AreEqual("CN=GTS CA 1O1, O=Google Trust Services, C=US", result.IssuerDN);
         }
 
         [Test]
         public async Task GetCertificateIp()
         {
             var result = await CertificateReader.GetCertificateInfo(IPAddress.Parse("8.8.4.4"));
-            Assert.AreEqual("Google", result.Issuer);
+            Assert.AreEqual("Google", result.IssuerDN);
         }
 
     }
