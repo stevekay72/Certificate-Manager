@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using CertificateManager.Blazor.Data;
 using CertificateServices.Interfaces;
 using CertificateServices.Services;
+using DataServices.Interfaces;
+using DataServices.Services;
 
 namespace CertificateManager.Blazor
 {
@@ -33,6 +35,8 @@ namespace CertificateManager.Blazor
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<ICertificateReader>(new CertificateReader());
             services.AddSingleton<IDNParser>(new DNParser());
+            services.AddSingleton<ILocalDbService>(new LocalDbService("CertData.db"));
+            services.AddSingleton<DataStoreService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -29,14 +29,13 @@ namespace CertificateServices.Models
             if (certificate != null)
             {
                 this.IssuerDN = certificate.Issuer;
-
-                var xx = certificate.Issuer;
-                var xy = certificate.GetNameInfo(X509NameType.SimpleName, true);
-
                 this.SubjectDN = certificate.Subject;
                 this.Thumbprint = certificate.Thumbprint;
                 this.KeyHash = certificate.GetCertHashString();
                 this.Expiry = DateTime.Parse(certificate.GetExpirationDateString());
+                this.SerialNumber = certificate.SerialNumber;
+                this.Thumbprint = certificate.Thumbprint;
+                this.SignatureAlgorithm = new SignatureAlgorithm { FriendlyName = certificate.SignatureAlgorithm.FriendlyName, Value = certificate.SignatureAlgorithm.Value };
             }
         }
 
