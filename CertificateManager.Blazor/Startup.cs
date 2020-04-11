@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CertificateManager.Blazor.Data;
+using CertificateServices.Interfaces;
+using CertificateServices.Services;
 
 namespace CertificateManager.Blazor
 {
@@ -29,6 +31,7 @@ namespace CertificateManager.Blazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<ICertificateReader>(new CertificateReader());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

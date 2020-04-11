@@ -1,0 +1,30 @@
+﻿@page "/certificates"
+
+@using CertificateServices.Models;
+
+<h3>Certificates</h3>
+
+<input placeholder="Add Url" @bind="newUrl" />
+<button @onclick="AddUrl">Add Url</button>
+
+<ul>
+    @foreach (var certificate in certificates)
+    {
+        <li>@certificate.Title</li>
+    }
+</ul>
+
+@code {
+    private IList<CertificateInfo> certificates = new List<CertificateInfo>();
+    private string newUrl;
+
+    private void AddUrl()
+    {
+        // Todo: Add the todo
+        if (!string.IsNullOrWhiteSpace(newUrl))
+        {
+            certificates.Add(new CertificateInfo { Title = newUrl });
+            newUrl = string.Empty;
+        }
+    }
+}
