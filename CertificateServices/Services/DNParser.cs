@@ -28,7 +28,8 @@ namespace CertificateServices.Services
                     case "S": newDN.S = kv[1]; break;
                     case "OU": newDN.Ou.Add(kv[1]); break;
                 }
-                newDN.Dictionary.Add(kv[0], kv[1]);
+                if (kv[0].ToUpper() != "OU")
+                    newDN.Dictionary.Add(kv[0], kv[1]);
             }
             return newDN;
         }
