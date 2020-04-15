@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CertificateServices.Services
 {
-    public class CertificateReader : ICertificateReader
+    public class CertificateService : ICertificateService
     {
         public async Task<CertificateInfo> GetCertificateInfo(Uri url)
         {

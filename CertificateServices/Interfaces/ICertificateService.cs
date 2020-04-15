@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CertificateServices.Interfaces
 {
-    public interface ICertificateReader
+    public interface ICertificateService
     {
         Task<CertificateInfo> GetCertificateInfo(Uri url);
         Task<CertificateInfo> GetCertificateInfo(IPAddress ipAddress);
