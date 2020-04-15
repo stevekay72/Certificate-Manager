@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
@@ -12,6 +13,7 @@ namespace CertificateServices.Models
 
     public class CertificateInfo
     {
+        public Guid Id { get; set; }
         public Uri Url { get; set; }
         public string Title { get; set; }
         public string KeyHash { get; set; }
@@ -21,7 +23,14 @@ namespace CertificateServices.Models
         public string Thumbprint { get; set; }
         public string SerialNumber { get; set; }
         public SignatureAlgorithm SignatureAlgorithm { get; set; }
-
+        public bool IsValid { get; }
+        public byte[] RawData { get; }
+        public CertificateValidationResult CertificateValidationResult { get; set; }
+        public string StatusColour() {
+            if (this.IsValid) return "red";
+            else if (Expiry.AddDays(60) > DateTime.Now) return "orange";
+            else return "green";
+        }
         public CertificateInfo() { }
 
         public CertificateInfo(X509Certificate2 certificate)
@@ -35,6 +44,8 @@ namespace CertificateServices.Models
                 this.Expiry = DateTime.Parse(certificate.GetExpirationDateString());
                 this.SerialNumber = certificate.SerialNumber;
                 this.Thumbprint = certificate.Thumbprint;
+                this.RawData = certificate.GetRawCertData();
+                this.IsValid = certificate.Verify();
                 this.SignatureAlgorithm = new SignatureAlgorithm { FriendlyName = certificate.SignatureAlgorithm.FriendlyName, Value = certificate.SignatureAlgorithm.Value };
             }
         }

@@ -7,6 +7,7 @@ namespace DataServices.Interfaces
     public interface ILocalDbService
     {
         void Delete<T>(Expression<Func<T, bool>> query);
+        void Delete<T>(Guid id);
         void Insert<T>(T item);
         void Upsert<T>(T item);
         int Count<T>();

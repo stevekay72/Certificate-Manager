@@ -22,24 +22,27 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Expiry</th>
-                <th>Issuer</th>
-                <th>Subject</th>
-                <th>Url</th>
-                <th>Algorithm</th>
-            </tr>
+        <tr>
+            <th/><th/>
+            <th>Expiry</th>
+            <th>Issuer</th>
+            <th>Subject</th>
+            <th>Url</th>
+            <th>Valid</th>
+        </tr>
         </thead>
         <tbody>
             @foreach (var certificate in certificates)
             {
-                <tr>
-                    <td>@certificate.Expiry.ToString("dd MMM yyyy")</td>
-                    <td>@DNParser.Parse(certificate.IssuerDN).O</td>
-                    <td>@DNParser.Parse(certificate.SubjectDN).O</td>
-                    <td>@certificate.Url.DnsSafeHost</td>
-                    <td>@certificate.SignatureAlgorithm.FriendlyName</td>
-                </tr>
+            <tr>
+                <td><a @onclick="@(() => RemoveItem(certificate))"><i class="oi oi-trash"></i></a></td>
+                <td><a class="fas fa-circle" style='font-size: 20px;color:@certificate.StatusColour()'></a></td>
+                <td>@certificate.Expiry.ToString("dd MMM yyyy")</td>
+                <td>@DNParser.Parse(certificate.IssuerDN).O</td>
+                <td>@DNParser.Parse(certificate.SubjectDN).O</td>
+                <td>@certificate.Url.DnsSafeHost</td>
+                <td>@certificate.CertificateValidationResult?.IsValid</td>
+            </tr>
             }
         </tbody>
     </table>
@@ -51,23 +54,37 @@ else
 
     private async Task AddUrl()
     {
-        // Todo: Add the todo
         if (!string.IsNullOrWhiteSpace(_newUrl))
         {
             var certDetails = await CertService.GetCertificateInfo(new Uri($"https://{_newUrl}"));
-            //var dn = DNParser.Parse(certDetails.IssuerDN);
-            //var org = dn.O;
-            //certDetails.IssuerDN = org;
+            certDetails.Id = Guid.NewGuid();
             certificates.Add(certDetails);
             DataStore.AddCertificate(certDetails);
-            //certificates.Add(new CertificateInfo { Title = certDetails.Issuer });
             _newUrl = string.Empty;
+            SortTable();
         }
+    }
+
+    private void RemoveItem(CertificateInfo certificate)
+    {
+        certificates.Remove(certificate);
+        DataStore.RemoveCertificate(certificate);
+    }
+
+    private void RemoveItemById(Guid id)
+    {
+        //certificates.Remove(certificates.First(x => x.Id == id));
+    }
+
+    private void SortTable()
+    {
+        certificates = certificates.OrderBy(x => x.CertificateValidationResult.IsValid).ThenBy(y => y.Expiry).ToList();
     }
 
     protected override void OnInitialized()
     {
         certificates = DataStore.GetCertificateList().ToList();
+        SortTable();
     }
 
     //protected override async Task OnInitializedAsync()
