@@ -33,7 +33,7 @@ namespace CertificateManager.Blazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<ICertificateReader>(new CertificateReader());
+            services.AddSingleton<ICertificateService>(new CertificateService());
             services.AddSingleton<IDNParser>(new DNParser());
             services.AddSingleton<ILocalDbService>(new LocalDbService("CertData.db"));
             services.AddSingleton<DataStoreService>();

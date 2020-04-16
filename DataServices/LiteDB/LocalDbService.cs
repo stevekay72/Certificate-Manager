@@ -77,6 +77,12 @@ namespace DataServices.Services
             collection.DeleteMany(query);
         }
 
+        public void Delete<T>(Guid id)
+        {
+            var collection = Local.GetCollection<T>();
+            collection.Delete(id);
+        }
+
 
         ~LocalDbService()
         {
