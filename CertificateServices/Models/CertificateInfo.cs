@@ -23,13 +23,19 @@ namespace CertificateServices.Models
         public string Thumbprint { get; set; }
         public string SerialNumber { get; set; }
         public SignatureAlgorithm SignatureAlgorithm { get; set; }
-        public bool IsValid { get; }
-        public byte[] RawData { get; }
+        public bool IsValid { get; set; }
+        public byte[] RawData { get; set; }
         public CertificateValidationResult CertificateValidationResult { get; set; }
-        public string StatusColour() {
-            if (this.IsValid) return "red";
-            else if (Expiry.AddDays(60) > DateTime.Now) return "orange";
-            else return "green";
+        public string StatusColour
+        {
+            get
+            {
+                {
+                    if (!this.IsValid) return "red";
+                    else if (Expiry.AddDays(-90) < DateTime.Now) return "orange";
+                    else return "green";
+                }
+            }
         }
         public CertificateInfo() { }
 

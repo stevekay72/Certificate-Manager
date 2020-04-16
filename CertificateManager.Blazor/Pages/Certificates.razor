@@ -12,7 +12,7 @@
 <h3>Certificates</h3>
 
 <input placeholder="Add Url" @bind="_newUrl" />
-<button @onclick="AddUrl">Add Url</button>
+<button @onclick="AddUrl" data-toggle="tooltip" data-placement="top" title="Add this url">Add Url</button>
 
 @if (certificates == null)
 {
@@ -22,27 +22,28 @@ else
 {
     <table class="table">
         <thead>
-        <tr>
-            <th/><th/>
-            <th>Expiry</th>
-            <th>Issuer</th>
-            <th>Subject</th>
-            <th>Url</th>
-            <th>Valid</th>
-        </tr>
+            <tr>
+                <th />
+                <th />
+                <th>Status</th>
+                <th>Expiry</th>
+                <th>Issuer</th>
+                <th>Subject</th>
+                <th>Url</th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var certificate in certificates)
             {
-            <tr>
-                <td><a @onclick="@(() => RemoveItem(certificate))"><i class="oi oi-trash"></i></a></td>
-                <td><a class="fas fa-circle" style='font-size: 20px;color:@certificate.StatusColour()'></a></td>
-                <td>@certificate.Expiry.ToString("dd MMM yyyy")</td>
-                <td>@DNParser.Parse(certificate.IssuerDN).O</td>
-                <td>@DNParser.Parse(certificate.SubjectDN).O</td>
-                <td>@certificate.Url.DnsSafeHost</td>
-                <td>@certificate.CertificateValidationResult?.IsValid</td>
-            </tr>
+                <tr>
+                    <td><div @onclick="@(() => RemoveItem(certificate))"><span class="oi oi-trash sk-tooltip" style="cursor:pointer"><span class="sk-tooltiptext">Delete Entry</span></span></div></td>
+                    <td><a class="oi oi-reload sk-tooltip" style="cursor:pointer" @onclick="@(() => RecheckCertificate(certificate))"><span class="sk-tooltiptext">Recheck</span></a></td>
+                    <td><a class="fas fa-circle" style='font-size: 20px;color:@certificate.StatusColour'></a></td>
+                    <td>@certificate.Expiry.ToString("dd MMM yyyy")</td>
+                    <td>@DNParser.Parse(certificate.IssuerDN).O</td>
+                    <td>@DNParser.Parse(certificate.SubjectDN).O</td>
+                    <td>@certificate.Url.DnsSafeHost</td>
+                </tr>
             }
         </tbody>
     </table>
@@ -71,8 +72,14 @@ else
         DataStore.RemoveCertificate(certificate);
     }
 
-    private void RemoveItemById(Guid id)
+    private async Task RecheckCertificate(CertificateInfo certificate)
     {
+        var currentId = certificate.Id;
+        var cert = certificates.First(x => x.Id == currentId);
+        var updatedCert = await CertService.GetCertificateInfo(certificate.Url);
+        //cert.Expiry = certificate.Expiry.AddYears(10);
+        certificate.Id = currentId;
+        //certificate.Expiry = certificate.Expiry.AddMonths(1);
         //certificates.Remove(certificates.First(x => x.Id == id));
     }
 
