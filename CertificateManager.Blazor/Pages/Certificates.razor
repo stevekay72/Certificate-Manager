@@ -20,33 +20,54 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th />
-                <th />
-                <th>Status</th>
-                <th>Expiry</th>
-                <th>Issuer</th>
-                <th>Subject</th>
-                <th>Url</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var certificate in certificates)
-            {
-                <tr>
-                    <td><div @onclick="@(() => RemoveItem(certificate))"><span class="oi oi-trash sk-tooltip" style="cursor:pointer"><span class="sk-tooltiptext">Delete Entry</span></span></div></td>
-                    <td><a class="oi oi-reload sk-tooltip" style="cursor:pointer" @onclick="@(() => RecheckCertificate(certificate))"><span class="sk-tooltiptext">Recheck</span></a></td>
-                    <td><a class="fas fa-circle" style='font-size: 20px;color:@certificate.StatusColour'></a></td>
-                    <td>@certificate.Expiry.ToString("dd MMM yyyy")</td>
-                    <td>@DNParser.Parse(certificate.IssuerDN).O</td>
-                    <td>@DNParser.Parse(certificate.SubjectDN).O</td>
-                    <td>@certificate.Url.DnsSafeHost</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @*<MatButton>Test</MatButton>*@
+    <MatTable Items="@certificates" class="mat-elevation-z5">
+        <MatTableHeader>
+            <th />
+            <th />
+            <th >Status</th>
+            <th>Expiry</th>
+            <th nowrap>Url</th>
+            <th nowrap>Issuer</th>
+            <th nowrap>Subject</th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td><div @onclick="@(() => RemoveItem(context))"><span class="oi oi-trash sk-tooltip" style="cursor:pointer"><span class="sk-tooltiptext">Delete Entry</span></span></div></td>
+            <td><a class="oi oi-reload sk-tooltip" style="cursor:pointer" @onclick="@(() => RecheckCertificate(context))"><span class="sk-tooltiptext">Recheck</span></a></td>
+            <td><a class="fas fa-circle" style='font-size: 20px;color:@context.StatusColour'></a></td>
+            <td>@context.Expiry.ToString("dd MMM yyyy")</td>
+            <td>@context.Url.DnsSafeHost</td>
+            <td>@DNParser.Parse(context.IssuerDN).O</td>
+            <td>@DNParser.Parse(context.SubjectDN).O</td>
+        </MatTableRow>
+        </MatTable>
+    <!--     <table class="table">
+             <thead>
+                 <tr>
+                     <th />
+                     <th />
+                     <th>Status</th>
+                     <th>Expiry</th>
+                     <th>Issuer</th>
+                     <th>Subject</th>
+                     <th>Url</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 @foreach (var certificate in certificates)
+                 {
+                     <tr>
+                         <td><div @onclick="@(() => RemoveItem(certificate))"><span class="oi oi-trash sk-tooltip" style="cursor:pointer"><span class="sk-tooltiptext">Delete Entry</span></span></div></td>
+                         <td><a class="oi oi-reload sk-tooltip" style="cursor:pointer" @onclick="@(() => RecheckCertificate(certificate))"><span class="sk-tooltiptext">Recheck</span></a></td>
+                         <td><a class="fas fa-circle" style='font-size: 20px;color:@certificate.StatusColour'></a></td>
+                         <td>@certificate.Expiry.ToString("dd MMM yyyy")</td>
+                         <td>@DNParser.Parse(certificate.IssuerDN).O</td>
+                         <td>@DNParser.Parse(certificate.SubjectDN).O</td>
+                         <td>@certificate.Url.DnsSafeHost</td>
+                     </tr>
+                 }
+             </tbody>
+         </table>-->
 }
 
 @code {

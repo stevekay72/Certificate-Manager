@@ -14,6 +14,7 @@ using CertificateServices.Interfaces;
 using CertificateServices.Services;
 using DataServices.Interfaces;
 using DataServices.Services;
+using System.Net.Http;
 
 namespace CertificateManager.Blazor
 {
@@ -37,6 +38,7 @@ namespace CertificateManager.Blazor
             services.AddSingleton<IDNParser>(new DNParser());
             services.AddSingleton<ILocalDbService>(new LocalDbService("CertData.db"));
             services.AddSingleton<DataStoreService>();
+            services.AddSingleton<HttpClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
