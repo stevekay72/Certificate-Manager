@@ -83,7 +83,11 @@ namespace DataServices.Services
             collection.Delete(id);
         }
 
-
+        public T Get<T>(Guid id)
+        {
+            var collection = Local.GetCollection<T>();
+            return collection.FindById(id);
+        }
         ~LocalDbService()
         {
             Local.Dispose();

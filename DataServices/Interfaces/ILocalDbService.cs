@@ -15,5 +15,6 @@ namespace DataServices.Interfaces
         IEnumerable<T> All<T>();
         IEnumerable<T> Query<T>(Expression<Func<T, bool>> query);
         void Update<T>(T item);
+        T Get<T>(Guid id);
     }
 }
