@@ -15,11 +15,11 @@ namespace DataServices.Services
         public LocalDbService(string fileName)
         {
             Local = new LiteDatabase($"filename={GetFilePath(fileName)};mode=Exclusive");
-            var collections = Local.GetCollectionNames();
-            foreach (var collectionName in collections)
-            {
-                Console.WriteLine($"*** COLLECTION: {collectionName}");
-            }
+            //var collections = Local.GetCollectionNames();
+            //foreach (var collectionName in collections)
+            //{
+            //    Console.WriteLine($"*** COLLECTION: {collectionName}");
+            //}
         }
 
         private string GetFilePath(string fileName) => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), fileName);
