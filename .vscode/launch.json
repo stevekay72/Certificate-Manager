@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/CertificateManager.Blazor/bin/Debug/netcoreapp3.1/CertificateManager.Blazor.dll",
+            "program": "${workspaceFolder}/CertificateManager.Blazor/bin/Debug/net5.0/CertificateManager.Blazor.dll",
             "args": [],
             "cwd": "${workspaceFolder}/CertificateManager.Blazor",
             "stopAtEntry": false,
