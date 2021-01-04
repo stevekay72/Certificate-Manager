@@ -13,10 +13,11 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Installing .NET Core SDK...'
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK...'
   inputs:
-    version: 5.0.101
+    packageType: 'sdk'
+    version: '5.0.101'
 - script: dotnet build --configuration $(buildConfiguration) CertificateManager.Blazor/CertificateManager.Blazor.csproj
   displayName: 'Building $(buildConfiguration)'
 - task: DotNetCoreCLI@2
