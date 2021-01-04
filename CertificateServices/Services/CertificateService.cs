@@ -44,6 +44,7 @@ namespace CertificateServices.Services
             var httpClientHandler = new HttpClientHandler
             {
                 UseDefaultCredentials = true,
+                DefaultProxyCredentials = CredentialCache.DefaultCredentials,
                 ServerCertificateCustomValidationCallback = (_, cert, __, ___) =>
                 {
                     certificate = new X509Certificate2(cert.RawData);
