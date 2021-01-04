@@ -77,10 +77,14 @@ else
         var currentId = certificate.Id;
         var cert = certificates.First(x => x.Id == currentId);
         var updatedCert = await CertService.GetCertificateInfo(certificate.Url);
+        updatedCert.Id = currentId;
+        DataStore.AddCertificate(updatedCert);
         //cert.Expiry = certificate.Expiry.AddYears(10);
         certificate.Id = currentId;
         //certificate.Expiry = certificate.Expiry.AddMonths(1);
         //certificates.Remove(certificates.First(x => x.Id == id));
+        SortTable();
+        StateHasChanged();
     }
 
     private void SortTable()

@@ -24,6 +24,10 @@ namespace CertificateManager.Blazor.Data
         {
             LocalDb.Upsert<CertificateInfo>(certificate);
         }
+        public void UpdateCertificate(CertificateInfo certificate)
+        {
+            LocalDb.Upsert<CertificateInfo>(certificate);
+        }
         public void RemoveCertificate(CertificateInfo certificate)
         {
             LocalDb.Delete<CertificateInfo>(certificate.Id);
